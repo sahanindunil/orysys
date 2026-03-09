@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Orysys Sensitivity Label Guide</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8fafc;
+        }
+
+        .copy-feedback {
+            display: none;
+            animation: fadeInOut 2s ease-in-out;
+        }
+
+        @keyframes fadeInOut {
+            0% { opacity: 0; transform: translateY(10px); }
+            10% { opacity: 1; transform: translateY(0); }
+            90% { opacity: 1; transform: translateY(0); }
+            100% { opacity: 0; transform: translateY(-10px); }
+        }
+
+        .step-checkbox:checked + label {
+            text-decoration: line-through;
+            color: #94a3b8;
+        }
+    </style>
+</head>
+<body class="text-slate-800">
+
+    <!-- Header -->
+    <header class="bg-indigo-900 text-white shadow-lg sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 py-4 flex justify-between items-center">
+            <div class="flex items-center space-x-3">
+                <div class="bg-white p-1 rounded">
+                    <svg class="w-8 h-8 text-indigo-900" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 00-2 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+                    </svg>
+                </div>
+                <div>
+                    <h1 class="text-xl font-bold tracking-tight">Orysys Information Protection</h1>
+                    <p class="text-indigo-200 text-xs uppercase tracking-widest font-semibold">POC Demo Guide</p>
+                </div>
+            </div>
+            <nav class="hidden md:flex space-x-6 text-sm font-medium">
+                <a href="#labels" class="hover:text-indigo-300 transition-colors">Labels</a>
+                <a href="#guide" class="hover:text-indigo-300 transition-colors">Setup Guide</a>
+                <a href="#qa" class="hover:text-indigo-300 transition-colors">Q&A</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="max-w-7xl mx-auto px-4 py-8 space-y-12">
+
+        <!-- Notification Toast -->
+        <div id="copy-toast" class="fixed bottom-8 right-8 bg-slate-900 text-white px-6 py-3 rounded-xl shadow-2xl copy-feedback z-50 flex items-center space-x-3 border border-slate-700">
+            <svg class="w-5 h-5 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+            <span class="font-medium">Copied to clipboard!</span>
+        </div>
+
+        <!-- Section 1: Label Configuration -->
+        <section id="labels">
+            <div class="mb-6">
+                <h2 class="text-2xl font-bold text-slate-900">Label Configuration Details</h2>
+                <p class="text-slate-500">Quickly copy values for the Purview sensitivity labels.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                
+                <!-- Card Component -->
+                <script>
+                    const labelData = [
+                        {
+                            name: "Confidential – Internal",
+                            desc: "Use for internal-only data with moderate operational/reputational risk.",
+                            header: "CONFIDENTIAL - INTERNAL",
+                            footer: "© 2026 Orysys. Authorized internal use only.",
+                            color: "bg-red-50 text-red-700 border-red-200"
+                        },
+                        {
+                            name: "Confidential – External",
+                            desc: "Use for external stakeholders; client proposals, pricing, and correspondence.",
+                            header: "CONFIDENTIAL - EXTERNAL",
+                            footer: "Orysys Property. Unauthorized distribution is prohibited.",
+                            color: "bg-orange-50 text-orange-700 border-orange-200"
+                        },
+                        {
+                            name: "Internal",
+                            desc: "Use for routine internal communications, training, and project documentation.",
+                            header: "INTERNAL USE ONLY",
+                            footer: "Property of Orysys. No public disclosure.",
+                            color: "bg-blue-50 text-blue-700 border-blue-200"
+                        },
+                        {
+                            name: "Public",
+                            desc: "Approved for public release; websites, marketing, and press releases.",
+                            header: "PUBLIC",
+                            footer: "Approved for public release.",
+                            color: "bg-emerald-50 text-emerald-700 border-emerald-200"
+                        }
+                    ];
+
+                    function copyText(text) {
+                        const tempInput = document.createElement('input');
+                        tempInput.value = text;
+                        document.body.appendChild(tempInput);
+                        tempInput.select();
+                        document.execCommand('copy');
+                        document.body.removeChild(tempInput);
+                        
+                        const toast = document.getElementById('copy-toast');
+                        toast.style.display = 'flex';
+                        setTimeout(() => { toast.style.display = 'none'; }, 2000);
+                    }
+                </script>
+
+                <div id="label-container" class="contents">
+                    <!-- Cards will be injected by the helper script below -->
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 2: Implementation Guide -->
+        <section id="guide" class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
+            <div class="p-8 border-b border-slate-100">
+                <h2 class="text-2xl font-bold text-slate-900">Step-by-Step Implementation Guide</h2>
+                <p class="text-slate-500">Process to follow within the Microsoft Purview portal.</p>
+            </div>
+            <div class="p-8">
+                <div class="space-y-6 max-w-4xl">
+                    <div class="flex items-start space-x-4">
+                        <div class="flex-shrink-0 w-8 h-8 rounded-full bg-indigo-100 text-indigo-600 flex items-center justify-center font-bold text-sm">1</div>
+                        <div class="pt-1">
+                            <h3 class="font-semibold text-lg text-slate-800">Access Purview</h3>
+                            <p class="text-slate-600 mb-2">Log in to the portal and navigate to <span class="bg-slate-100 px-1.5 py-0.5 rounded font-mono text-sm">Information Protection > Sensitivity labels</span>.</p>
+                            <div class="flex items-center space-x-2">
+                                <input type="checkbox" id="step1" class="step-checkbox w-5 h-5 rounded border-slate-300 text-indigo-600 focus:ring-indigo-500">
+                                <label for="step1" class="text-sm font-medium text-slate-500 cursor-pointer">Portal accessed</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="flex items-start space-x-4">
+                        <div class="flex-shrink-0 w-8 h-8 rounded-full bg-indigo-100 text-indigo-600 flex items-center justify-center font-bold text-sm">2</div>
+                        <div class="pt-1">
+                            <h3 class="font-semibold text-lg text-slate-800">Add Label</h3>
+                            <p class="text-slate-600">Click <span class="font-bold text-indigo-600">+ Create a label</span> to start the wizard.</p>
+                        </div>
+                    </div>
+
+                    <div class="flex items-start space-x-4">
+                        <div class="flex-shrink-0 w-8 h-8 rounded-full bg-indigo-100 text-indigo-600 flex items-center justify-center font-bold text-sm">3</div>
+                        <div class="pt-1">
+                            <h3 class="font-semibold text-lg text-slate-800">Configure Settings</h3>
+                            <div class="mt-3 grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <div class="bg-slate-50 p-4 rounded-xl border border-slate-200">
+                                    <h4 class="font-bold text-xs uppercase text-slate-500 mb-2 tracking-wider">Scope</h4>
+                                    <p class="text-sm">Select <span class="font-semibold">Emails and Files</span>.</p>
+                                </div>
+                                <div class="bg-slate-50 p-4 rounded-xl border border-slate-200">
+                                    <h4 class="font-bold text-xs uppercase text-slate-500 mb-2 tracking-wider">Marking</h4>
+                                    <p class="text-sm">Enable <span class="font-semibold">Header</span> and <span class="font-semibold">Footer</span>; use values from above.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="flex items-start space-x-4">
+                        <div class="flex-shrink-0 w-8 h-8 rounded-full bg-indigo-100 text-indigo-600 flex items-center justify-center font-bold text-sm">4</div>
+                        <div class="pt-1">
+                            <h3 class="font-semibold text-lg text-slate-800">Encryption (Conditional)</h3>
+                            <p class="text-slate-600">For <span class="italic text-slate-900">Confidential</span> labels, toggle encryption <span class="font-semibold">ON</span> if identity-based access restriction is required for the demo.</p>
+                        </div>
+                    </div>
+
+                    <div class="flex items-start space-x-4">
+                        <div class="flex-shrink-0 w-8 h-8 rounded-full bg-indigo-100 text-indigo-600 flex items-center justify-center font-bold text-sm">5</div>
+                        <div class="pt-1">
+                            <h3 class="font-semibold text-lg text-slate-800">Finalize</h3>
+                            <p class="text-slate-600">Click Next through the screens and click <span class="font-bold text-emerald-600 underline">Create label</span>.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 3: Q&A -->
+        <section id="qa">
+            <div class="mb-6">
+                <h2 class="text-2xl font-bold text-slate-900">Stakeholder Q&A</h2>
+                <p class="text-slate-500">Key insights for the POC report to address common concerns.</p>
+            </div>
+
+            <div class="space-y-4">
+                <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm">
+                    <h3 class="font-bold text-indigo-900 text-lg mb-3">Q1: Can a Business Basic user open an attachment with a sensitivity label sent by a Business Standard user?</h3>
+                    <div class="flex items-start space-x-3 text-slate-700 bg-indigo-50/50 p-4 rounded-xl">
+                        <svg class="w-6 h-6 text-indigo-600 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"></path></svg>
+                        <p><span class="font-bold">Answer:</span> Yes. The Business Basic user will be able to decrypt and open the document, provided they authenticate with a valid Microsoft 365 identity. The security is linked to the user's identity, not the specific license tier.</p>
+                    </div>
+                </div>
+
+                <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm">
+                    <h3 class="font-bold text-indigo-900 text-lg mb-3">Q2: How does the applied sensitivity label affect access?</h3>
+                    <div class="flex items-start space-x-3 text-slate-700 bg-indigo-50/50 p-4 rounded-xl">
+                        <svg class="w-6 h-6 text-indigo-600 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"></path></svg>
+                        <p><span class="font-bold">Answer:</span> The sensitivity label functions as an "identity gatekeeper". Once applied, it enforces the restrictions defined in the label's access control settings (e.g., "No Print" or "No Forward") consistently on the recipient's device. This ensures that even users on different license tiers (Business Standard vs. Business Basic) are bound by the same Orysys security standards.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="bg-slate-100 border-t border-slate-200 py-12">
+        <div class="max-w-7xl mx-auto px-4 text-center">
+            <p class="text-slate-400 text-sm">© 2026 Orysys Security POC Dashboard. Use for demo purposes only.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Inject Cards
+        const container = document.getElementById('label-container');
+        labelData.forEach(label => {
+            const card = document.createElement('div');
+            card.className = "bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden flex flex-col";
+            card.innerHTML = `
+                <div class="p-4 ${label.color} font-bold text-sm tracking-wide border-b">
+                    ${label.name}
+                </div>
+                <div class="p-5 space-y-4 flex-grow">
+                    <div>
+                        <div class="flex justify-between items-center mb-1">
+                            <span class="text-[10px] font-bold uppercase text-slate-400">Description for Users</span>
+                            <button onclick="copyText('${label.desc}')" class="text-indigo-600 hover:text-indigo-800 text-[10px] font-bold">COPY</button>
+                        </div>
+                        <p class="text-xs text-slate-600 italic leading-relaxed">"${label.desc}"</p>
+                    </div>
+                    
+                    <div>
+                        <div class="flex justify-between items-center mb-1">
+                            <span class="text-[10px] font-bold uppercase text-slate-400">Header Text</span>
+                            <button onclick="copyText('${label.header}')" class="text-indigo-600 hover:text-indigo-800 text-[10px] font-bold">COPY</button>
+                        </div>
+                        <div class="bg-slate-50 p-2 rounded border font-mono text-[10px] break-all">
+                            ${label.header}
+                        </div>
+                    </div>
+
+                    <div>
+                        <div class="flex justify-between items-center mb-1">
+                            <span class="text-[10px] font-bold uppercase text-slate-400">Footer Text</span>
+                            <button onclick="copyText('${label.footer}')" class="text-indigo-600 hover:text-indigo-800 text-[10px] font-bold">COPY</button>
+                        </div>
+                        <div class="bg-slate-50 p-2 rounded border font-mono text-[10px] break-all leading-tight">
+                            ${label.footer}
+                        </div>
+                    </div>
+                </div>
+            `;
+            container.appendChild(card);
+        });
+    </script>
+</body>
+</html>
